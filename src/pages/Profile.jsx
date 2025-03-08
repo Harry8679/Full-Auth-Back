@@ -13,26 +13,26 @@ const Profile = () => {
         navigate("/login");
         return;
       }
-
+  
       try {
         const response = await fetch("http://localhost:6540/api/v1/auth/profile", {
           headers: { Authorization: `Bearer ${token}` },
         });
-
+  
         const data = await response.json();
         if (!response.ok) throw new Error(data.error);
-
+  
         setUser(data);
-        setLoading(false); // ✅ Une fois les données chargées, on désactive `loading`
       } catch (err) {
         console.error("Erreur lors de la récupération du profil:", err);
         localStorage.removeItem("token");
         navigate("/login");
       }
     };
-
+  
     fetchProfile();
-  }, []); // ✅ Retirer `navigate` des dépendances pour éviter la boucle infinie
+  }, []); // ✅ Assure-toi que `[]` est utilisé pour éviter la boucle infinie
+  
 
   const handleLogout = () => {
     localStorage.removeItem("token");
