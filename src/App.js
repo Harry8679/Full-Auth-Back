@@ -3,10 +3,10 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
-import UpdateProfile from "./pages/UpdateProfile";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Navbar from "./components/Navbar";
+import EditProfile from "./pages/EditProfile";
 
 export const AuthContext = createContext();
 
@@ -45,7 +45,7 @@ const App = () => {
             ) : (
               <>
                 <Route path="/profile" element={<Profile />} />
-                <Route path="/update-profile" element={<UpdateProfile />} />
+                <Route path="/update-profile" element={<EditProfile />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/reset-password/:token" element={<ResetPassword />} />
                 <Route path="*" element={<Navigate to="/profile" />} />
