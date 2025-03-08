@@ -3,22 +3,27 @@ import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true); // ✅ Ajouter un état de chargement
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProfile = async () => {
       const token = localStorage.getItem("token");
-      if (!token) return navigate("/login");
+      if (!token) {
+        navigate("/login");
+        return;
+      }
 
       try {
         const response = await fetch("http://localhost:6540/api/v1/auth/profile", {
           headers: { Authorization: `Bearer ${token}` },
         });
-        
+
         const data = await response.json();
         if (!response.ok) throw new Error(data.error);
 
         setUser(data);
+        setLoading(false); // ✅ Une fois les données chargées, on désactive `loading`
       } catch (err) {
         console.error("Erreur lors de la récupération du profil:", err);
         localStorage.removeItem("token");
@@ -27,7 +32,7 @@ const Profile = () => {
     };
 
     fetchProfile();
-  }, [navigate]);
+  }, []); // ✅ Retirer `navigate` des dépendances pour éviter la boucle infinie
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -38,7 +43,9 @@ const Profile = () => {
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
       <div className="bg-white p-8 shadow-lg rounded-xl w-96">
         <h2 className="text-2xl font-bold text-center text-gray-800">Mon Profil</h2>
-        {user ? (
+        {loading ? ( // ✅ Vérifier si les données sont encore en chargement
+          <p className="text-center text-gray-500">Chargement...</p>
+        ) : user ? (
           <div className="mt-4 text-center">
             <p className="text-gray-700 font-semibold">Nom: {user.name}</p>
             <p className="text-gray-700">Email: {user.email}</p>
@@ -50,7 +57,7 @@ const Profile = () => {
             </button>
           </div>
         ) : (
-          <p className="text-center text-gray-500">Chargement...</p>
+          <p className="text-center text-gray-500">Utilisateur introuvable</p>
         )}
       </div>
     </div>
