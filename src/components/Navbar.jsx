@@ -1,53 +1,41 @@
-import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { FaUserCircle } from "react-icons/fa";
 
 const Navbar = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const navigate = useNavigate();
-
-  // Simulation de la connexion (vérification du token)
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    setIsLoggedIn(!!token);
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem("token"); // Suppression du token
-    setIsLoggedIn(false);
-    navigate("/login"); // Redirection vers la connexion
-  };
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // À remplacer avec une auth réelle
 
   return (
-    <nav className="bg-white shadow-md p-4 fixed w-full top-0 left-0 z-50">
+    <nav className="bg-gradient-to-r from-indigo-500 to-purple-600 p-4 shadow-lg">
       <div className="container mx-auto flex justify-between items-center">
-        {/* Logo */}
-        <Link to="/" className="text-2xl font-bold text-blue-600">
+        <Link to="/" className="text-white text-2xl font-bold">
           EmarhAuth
         </Link>
 
-        {/* Liens dynamiques */}
-        <div className="space-x-6">
-          {isLoggedIn ? (
+        <div className="flex items-center space-x-4">
+          {isAuthenticated ? (
             <>
-              <Link to="/profile" className="text-gray-700 hover:text-blue-500">
-                Profil
+              <Link to="/profile" className="text-white flex items-center space-x-2">
+                <FaUserCircle size={24} />
+                <span>Profil</span>
               </Link>
-              <Link to="/edit-profile" className="text-gray-700 hover:text-blue-500">
-                Modifier Profil
-              </Link>
-              <button
-                onClick={handleLogout}
-                className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
+              <Button
+                onClick={() => setIsAuthenticated(false)}
+                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
               >
                 Déconnexion
-              </button>
+              </Button>
             </>
           ) : (
             <>
-              <Link to="/login" className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+              <Link to="/login" className="text-white hover:text-gray-200">
                 Connexion
               </Link>
-              <Link to="/register" className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">
+              <Link
+                to="/register"
+                className="bg-white text-indigo-600 px-4 py-2 rounded-lg hover:bg-gray-100"
+              >
                 Inscription
               </Link>
             </>
