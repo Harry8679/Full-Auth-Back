@@ -8,6 +8,7 @@ import ResetPassword from "./pages/ResetPassword";
 import Navbar from "./components/Navbar";
 import EditProfile from "./pages/EditProfile";
 import { AuthContext } from "./context/AuthContext"; // ✅ Import du contexte
+import VerifyEmail from "./pages/VerifyEmail";
 
 const App = () => {
   const { user } = useContext(AuthContext); // ✅ Utilisation du contexte
@@ -21,6 +22,7 @@ const App = () => {
             <>
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/verify-email/:token" element={<VerifyEmail />} /> {/* ✅ Ajout de la route */}
               <Route path="*" element={<Navigate to="/login" />} />
             </>
           ) : (
