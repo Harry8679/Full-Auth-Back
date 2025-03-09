@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaEye, FaEyeSlash } from "react-icons/fa"; // Icônes pour afficher/cacher le mot de passe
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+// Configuration de Toastify
+toast.configure();
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -38,7 +43,7 @@ const Register = () => {
     setError("");
 
     if (!passwordsMatch) {
-      setError("Les mots de passe ne correspondent pas.");
+      toast.error("Les mots de passe ne correspondent pas.", { position: "top-right" });
       return;
     }
 
@@ -56,10 +61,14 @@ const Register = () => {
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Erreur lors de l'inscription");
 
-      alert("Inscription réussie ! Vérifiez votre email.");
-      navigate("/login");
+      // ✅ Notification de succès
+      toast.success("Inscription réussie ! Vérifiez votre email.", { position: "top-right" });
+
+      // Redirection après un petit délai pour que l'utilisateur puisse voir le message
+      setTimeout(() => navigate("/login"), 2000);
     } catch (err) {
       setError(err.message);
+      toast.error(err.message, { position: "top-right" }); // ✅ Notification d'erreur
     }
   };
 
