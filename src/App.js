@@ -9,6 +9,8 @@ import Navbar from "./components/Navbar";
 import EditProfile from "./pages/EditProfile";
 import { AuthContext } from "./context/AuthContext"; // ✅ Import du contexte
 import VerifyEmail from "./pages/VerifyEmail";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   const { user } = useContext(AuthContext); // ✅ Utilisation du contexte
@@ -27,6 +29,7 @@ const App = () => {
             </>
           ) : (
             <>
+              <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
               <Route path="/profile" element={<Profile />} />
               <Route path="/update-profile" element={<EditProfile />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
