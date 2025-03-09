@@ -7,29 +7,29 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Navbar from "./components/Navbar";
 import EditProfile from "./pages/EditProfile";
-import { AuthContext } from "./context/AuthContext"; // ✅ Import du contexte
 import VerifyEmail from "./pages/VerifyEmail";
+import { AuthContext } from "./context/AuthContext";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
-  const { user } = useContext(AuthContext); // ✅ Utilisation du contexte
+  const { user } = useContext(AuthContext);
 
   return (
     <Router>
       <Navbar />
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
       <div className="container mx-auto p-4">
         <Routes>
           {!user ? (
             <>
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />
-              <Route path="/verify-email/:token" element={<VerifyEmail />} /> {/* ✅ Ajout de la route */}
+              <Route path="/verify-email/:token" element={<VerifyEmail />} />
               <Route path="*" element={<Navigate to="/login" />} />
             </>
           ) : (
             <>
-              <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
               <Route path="/profile" element={<Profile />} />
               <Route path="/update-profile" element={<EditProfile />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
