@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 // Configuration de Toastify
-toast.configure();
+// toast.configure();
 
 const Register = () => {
   const [formData, setFormData] = useState({
