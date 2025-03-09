@@ -1,28 +1,29 @@
 import { createContext, useState, useEffect } from "react";
 
-// Création du contexte
 export const AuthContext = createContext();
 
-const AuthProvider = ({ children }) => {
+export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // Vérifier si un utilisateur est stocké dans le localStorage
     const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+    const storedToken = localStorage.getItem("token");
+    
+    if (storedUser && storedToken) {
+      setUser(JSON.parse(storedUser)); // ✅ Charger l'utilisateur s'il est stocké
     }
   }, []);
 
-  const login = (userData) => {
+  const login = (userData, token) => {
+    localStorage.setItem("user", JSON.stringify(userData)); // ✅ Stocke l'utilisateur
+    localStorage.setItem("token", token); // ✅ Stocke le token
     setUser(userData);
-    localStorage.setItem("user", JSON.stringify(userData));
   };
 
   const logout = () => {
-    setUser(null);
     localStorage.removeItem("user");
     localStorage.removeItem("token");
+    setUser(null);
   };
 
   return (
@@ -31,5 +32,3 @@ const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
-
-export default AuthProvider;
