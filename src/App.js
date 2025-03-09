@@ -1,4 +1,3 @@
-import { useContext } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
@@ -18,14 +17,15 @@ const App = () => {
   return (
     <Router>
       <Navbar />
-      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
       <div className="container mx-auto p-4">
         <Routes>
+          <Route path="/verify-email/:token" element={<VerifyEmail />} /> {/* ✅ Route bien définie */}
+
           {!user ? (
             <>
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />
-              <Route path="/verify-email/:token" element={<VerifyEmail />} />
               <Route path="*" element={<Navigate to="/login" />} />
             </>
           ) : (
