@@ -10,6 +10,7 @@ import VerifyEmail from "./pages/VerifyEmail";
 import { AuthContext } from "./context/AuthContext";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useContext } from 'react';
 
 const App = () => {
   const { user } = useContext(AuthContext);
