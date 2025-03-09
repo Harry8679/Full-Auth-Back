@@ -9,7 +9,7 @@ const VerifyEmail = () => {
     const verifyEmail = async () => {
       try {
         const response = await fetch(`http://localhost:6540/api/v1/auth/verify-email/${token}`, {
-          method: "PUT", // ✅ Utilisation de PUT pour la vérification d'email
+          method: "GET", // ✅ Utilisation de PUT pour la vérification d'email
         });
 
         const data = await response.json();
