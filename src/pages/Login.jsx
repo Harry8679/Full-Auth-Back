@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext); // ✅ Utilisation du contexte
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -20,15 +24,20 @@ const Login = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
-      
+
       const data = await response.json();
-      if (!response.ok) throw new Error(data.error || "Erreur de connexion");
+      if (!response.ok) throw new Error(data.error || "Erreur lors de la connexion");
+
+      // ✅ Stocker les données dans le contexte
+      login(data.user, data.token);
       
-      localStorage.setItem("token", data.token);
-      alert("Connexion réussie !");
-      navigate("/profile");
+      toast.success("Connexion réussie !", { position: "top-right" });
+
+      // ✅ Redirige après connexion
+      setTimeout(() => navigate("/profile"), 2000);
     } catch (err) {
       setError(err.message);
+      toast.error(err.message, { position: "top-right" });
     }
   };
 
@@ -37,6 +46,7 @@ const Login = () => {
       <div className="bg-white p-8 shadow-lg rounded-xl w-96">
         <h2 className="text-2xl font-bold text-center text-gray-800">Connexion</h2>
         {error && <p className="text-red-500 text-sm text-center mt-2">{error}</p>}
+
         <form onSubmit={handleSubmit} className="mt-4">
           <input
             type="email"
@@ -60,9 +70,6 @@ const Login = () => {
             Se connecter
           </button>
         </form>
-        <p className="text-center text-sm text-gray-600 mt-4">
-          Pas encore inscrit ? <a href="/register" className="text-blue-500 hover:underline">Créer un compte</a>
-        </p>
       </div>
     </div>
   );
