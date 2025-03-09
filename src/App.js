@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
@@ -10,7 +11,6 @@ import VerifyEmail from "./pages/VerifyEmail";
 import { AuthContext } from "./context/AuthContext";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useContext } from 'react';
 
 const App = () => {
   const { user } = useContext(AuthContext);
@@ -21,7 +21,7 @@ const App = () => {
       <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
       <div className="container mx-auto p-4">
         <Routes>
-          <Route path="/verify-email/:token" element={<VerifyEmail />} /> {/* ✅ Route bien définie */}
+          <Route path="/verify-email/:token" element={<VerifyEmail />} /> 
 
           {!user ? (
             <>
