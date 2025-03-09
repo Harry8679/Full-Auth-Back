@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const VerifyEmail = () => {
   const { token } = useParams();
@@ -9,18 +11,18 @@ const VerifyEmail = () => {
     const verifyEmail = async () => {
       try {
         const response = await fetch(`http://localhost:6540/api/v1/auth/verify-email/${token}`, {
-          method: "GET", // ✅ Utilisation de PUT pour la vérification d'email
+          method: "GET",
         });
 
         const data = await response.json();
         if (!response.ok) throw new Error(data.error);
 
-        alert("Email vérifié avec succès !");
-        navigate("/login"); // ✅ Redirige vers la page de connexion
+        toast.success("Email vérifié avec succès !");
+        setTimeout(() => navigate("/login"), 2000);
       } catch (error) {
         console.error("Erreur de vérification :", error);
-        alert("Échec de la vérification de l'email.");
-        navigate("/register");
+        toast.error("Échec de la vérification de l'email.");
+        setTimeout(() => navigate("/register"), 2000);
       }
     };
 
