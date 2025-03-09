@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true); // ✅ Ajouter un état de chargement
+  const [loading, setLoading] = useState(true); // ✅ Assure-toi que l'état de chargement est géré
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -13,26 +13,27 @@ const Profile = () => {
         navigate("/login");
         return;
       }
-  
+
       try {
         const response = await fetch("http://localhost:6540/api/v1/auth/profile", {
           headers: { Authorization: `Bearer ${token}` },
         });
-  
+
         const data = await response.json();
         if (!response.ok) throw new Error(data.error);
-  
+
         setUser(data);
       } catch (err) {
         console.error("Erreur lors de la récupération du profil:", err);
         localStorage.removeItem("token");
         navigate("/login");
+      } finally {
+        setLoading(false); // ✅ Ajout de `setLoading(false)` pour stopper le chargement
       }
     };
-  
+
     fetchProfile();
-  }, []); // ✅ Assure-toi que `[]` est utilisé pour éviter la boucle infinie
-  
+  }, []); // ✅ Garde un tableau vide pour éviter les re-renders infinis
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -43,7 +44,7 @@ const Profile = () => {
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
       <div className="bg-white p-8 shadow-lg rounded-xl w-96">
         <h2 className="text-2xl font-bold text-center text-gray-800">Mon Profil</h2>
-        {loading ? ( // ✅ Vérifier si les données sont encore en chargement
+        {loading ? ( // ✅ Vérifie si les données sont encore en chargement
           <p className="text-center text-gray-500">Chargement...</p>
         ) : user ? (
           <div className="mt-4 text-center">
