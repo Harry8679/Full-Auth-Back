@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import ChangePassword from "./pages/ChangePassword"; // ✅ Nouvelle page pour modifier le mot de passe
 import Navbar from "./components/Navbar";
 import EditProfile from "./pages/EditProfile";
 import VerifyEmail from "./pages/VerifyEmail";
@@ -22,7 +23,8 @@ const App = () => {
       <div className="container mx-auto p-4">
         <Routes>
           <Route path="/verify-email/:token" element={<VerifyEmail />} /> 
-
+          <Route path="/forgot-password" element={<ForgotPassword />} /> {/* ✅ Toujours accessible */}
+          
           {!user ? (
             <>
               <Route path="/register" element={<Register />} />
@@ -33,7 +35,7 @@ const App = () => {
             <>
               <Route path="/profile" element={<Profile />} />
               <Route path="/update-profile" element={<EditProfile />} />
-              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/change-password" element={<ChangePassword />} /> {/* ✅ Page accessible après connexion */}
               <Route path="/reset-password/:token" element={<ResetPassword />} />
               <Route path="*" element={<Navigate to="/profile" />} />
             </>
