@@ -24,6 +24,7 @@ const App = () => {
         <Routes>
           <Route path="/verify-email/:token" element={<VerifyEmail />} /> 
           <Route path="/forgot-password" element={<ForgotPassword />} /> {/* ✅ Toujours accessible */}
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
           
           {!user ? (
             <>
@@ -36,7 +37,6 @@ const App = () => {
               <Route path="/profile" element={<Profile />} />
               <Route path="/update-profile" element={<EditProfile />} />
               <Route path="/change-password" element={<ChangePassword />} /> {/* ✅ Page accessible après connexion */}
-              <Route path="/reset-password/:token" element={<ResetPassword />} />
               <Route path="*" element={<Navigate to="/profile" />} />
             </>
           )}

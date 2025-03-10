@@ -27,7 +27,7 @@ const ChangePassword = () => {
     try {
       const token = localStorage.getItem("token"); // ✅ Récupérer le token
       const response = await fetch("http://localhost:6540/api/v1/auth/change-password", {
-        method: "POST",
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
